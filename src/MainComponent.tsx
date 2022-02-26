@@ -1,14 +1,18 @@
 import AddTodo from './AddTodo'
-import React from 'react'
+import React, {useState} from 'react'
 import FilterTodo from './FilterTodo'
-
+import AddCategoryModal from './AddCategoryModal'
 export default function MainComponent() {
+    const [open, setOpen] = useState<boolean>(false)
+    const handleToggle = () => {
+      setOpen(!open);
+    }
   return (
     <div>
         <AddTodo />
         <FilterTodo />
-        <button>Kategori ekle</button>
         {/*  modal */}
+        <AddCategoryModal />
     </div>
   )
 }

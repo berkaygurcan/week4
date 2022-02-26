@@ -14,33 +14,34 @@ const style = {
     pb: 3,
   };
   
-export default function EditStatuModal(props:any) {
+const  EditStatuModal = (props:any) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    function ChildModal() {
-        const [open, setOpen] = useState(false);
-        const handleToggle = () => {
-            setOpen(!open);
-        }
-        return (
-          <React.Fragment>
-            <Button onClick={handleToggle}>Open Child Modal</Button>
-            <Modal
-              hideBackdrop
-              open={open}
-              onClose={handleToggle}
-              aria-labelledby="child-modal-title"
-              aria-describedby="child-modal-description"
-            >
-              <Box sx={{ ...style, width: 200 }}>
-                <h2 id="child-modal-title">Text in a child modal</h2>
-                <p id="child-modal-description">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </p>
-                <Button onClick={handleToggle}>Close Child Modal</Button>
-              </Box>
-            </Modal>
-          </React.Fragment>
+    <React.Fragment>
+      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Modal
+        hideBackdrop
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">Text in a child modal</h2>
+          <p id="child-modal-description">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          </p>
+          <Button onClick={handleClose}>Close Child Modal</Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
         );
       }
-  )
-}
+export default EditStatuModal;

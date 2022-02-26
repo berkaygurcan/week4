@@ -1,7 +1,7 @@
-import React from 'react'
-import EditStatuModal from './editStatuModal';
+
 import { Modal, Box, Button } from '@mui/material'
 import { useState } from 'react';
+import EditStatuModal from './EditStatuModal';
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -16,15 +16,21 @@ const style = {
   pb: 3,
 };
 
+
 export default function AddCategoryModal() {
-  const [open, setOpen] = useState<boolean>(false)
-  const handleToggle = () => {
-    setOpen(!open);
-  }
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
-    <Modal
+    <div>
+      <Button onClick={handleOpen}>Add a Category</Button>
+      <Modal
         open={open}
-        onClose={handleToggle}
+        onClose={handleClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
@@ -33,8 +39,9 @@ export default function AddCategoryModal() {
           <p id="parent-modal-description">
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </p>
-          <EditStatuModal/>
+          <EditStatuModal />
         </Box>
       </Modal>
+    </div>
   )
 }
