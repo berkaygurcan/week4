@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import FormControl from '@mui/material/FormControl';
 import { Button, FormHelperText, Input, InputLabel } from '@mui/material';
+import axios from 'axios';
 
 export default function Register() {
   // register posts.
@@ -17,6 +18,19 @@ export default function Register() {
   const handleRegister = () => {
    console.log(formData)
    //@todo - istek atılıcak
+
+  //  const config = {
+  //    headers: {Authorization: `Bearer ${"token gelicek"}`}
+  //  };
+  //  const bodyParameters = {
+  //    key: "value"
+  //  }
+
+  //  axios.post(
+  //    'url',
+  //    bodyParameters,
+  //    config
+  //  ).then(console.log).catch(console.log)
    
 
   }
