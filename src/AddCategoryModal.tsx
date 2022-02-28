@@ -1,5 +1,5 @@
 
-import { Modal, Box, Button } from '@mui/material'
+import { Modal, Box, Button, TextField } from '@mui/material'
 import { useState } from 'react';
 import EditStatuModal from './EditStatuModal';
 const style = {
@@ -27,7 +27,7 @@ export default function AddCategoryModal() {
   };
   return (
     <div>
-      <Button onClick={handleOpen}>Add a Category</Button>
+      <Button onClick={handleOpen}>Edit Categories</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -36,10 +36,28 @@ export default function AddCategoryModal() {
       >
         <Box sx={{ ...style, width: 400 }}>
           <h2 id="parent-modal-title">Text in a modal</h2>
+          <TextField id="standard-basic" label="Standard" variant="standard" />
+          <Button variant="contained">Add Categorie</Button>
           <p id="parent-modal-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Burada var olan kategoriler listelenecek 
           </p>
-          <EditStatuModal />
+
+          <ul>
+            <li>
+                Web Tasarım 
+                <EditStatuModal />
+            </li>
+            <li>
+                Pazarlama 
+                <EditStatuModal />
+            </li>
+            <li>
+                Günledik 
+                <EditStatuModal />
+            </li>
+          </ul>
+          
+          
         </Box>
       </Modal>
     </div>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Modal, Box, Button } from '@mui/material';
+import { Modal, Box, Button, TextField } from '@mui/material';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -33,11 +33,35 @@ const  EditStatuModal = (props:any) => {
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
-        <Box sx={{ ...style, width: 200 }}>
+        <Box sx={{ ...style, width: 300 }}>
           <h2 id="child-modal-title">Text in a child modal</h2>
+          <TextField id="standard-basic" label="Status" variant="standard" />
+          <TextField id="standard-basic" label="Color" variant="standard" />
+          <Button variant="contained">Add Status</Button>
+
           <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            Burada ilgili kategoriye ait statüler listelenecek
           </p>
+          <ul>
+            <li>
+                Web Tasarım 
+                <Button >Sil</Button>
+                <Button >Düzenle</Button>
+                
+            </li>
+            <li>
+                Pazarlama
+                <Button >Sil</Button>
+                <Button >Düzenle</Button>
+                
+            </li>
+            <li>
+                Günledik
+                <Button >Sil</Button>
+                <Button >Düzenle</Button>
+                
+            </li>
+          </ul>
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>
       </Modal>
