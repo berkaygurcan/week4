@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import { Modal, Box, Button, TextField } from '@mui/material';
-import EditSingleStatu from './EditSingleStatu';
 const style = {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -15,7 +14,7 @@ const style = {
     pb: 3,
   };
   
-const  EditStatuModal = (props:any) => {
+const EditSingleStatu = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -23,6 +22,7 @@ const  EditStatuModal = (props:any) => {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <React.Fragment>
@@ -37,40 +37,18 @@ const  EditStatuModal = (props:any) => {
         <Box sx={{ ...style, width: 300 }}>
           <h2 id="child-modal-title">Text in a child modal</h2>
           <TextField id="standard-basic" label="Status" variant="standard" />
-          <TextField id="standard-basic" label="Color" variant="standard" />
-          <Button variant="contained">Add Status</Button>
+          
+          <Button variant="contained">Edit</Button>
 
           <p id="child-modal-description">
-            Burada ilgili kategoriye ait statüler listelenecek
+            Burada bir tek statü editlenecek
           </p>
-          <ul>
-            <li>
-                Web Tasarım 
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
-                <EditSingleStatu />
-
-                
-            </li>
-            <li>
-                Pazarlama
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
-                <EditSingleStatu />
-                
-            </li>
-            <li>
-                Günledik
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
-                <EditSingleStatu />
-                
-            </li>
-          </ul>
+          
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>
       </Modal>
     </React.Fragment>
         );
       }
-export default EditStatuModal;
+
+export default EditSingleStatu
