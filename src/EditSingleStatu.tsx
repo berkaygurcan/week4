@@ -39,53 +39,34 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
     setTextViewValue(value);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     //id değeri ile birlikte ilk önce statumuzu bulalım sonra güncelleyelim
+    const res = await axios.get(
+      `http://localhost:80/status/${statuId}`, //props ile geçtiğimiz id sayesinde statuyu alabileceğiz.
+      config
+    );
+    updatedStatu = res.data; //değişiklik yapmak istediğimiz kayıtı state olarak set ettik.
+    updatedStatu.title = textViewValue;
 
-    //@todo- async await yapısına sokabilirsin düzenli görünsün diye
+    const responseUpdatedStatu = await axios.put(
+      //güncelleme
+      `http://localhost:80/status/${statuId}`,
+      {
+        title: updatedStatu.title,
+        categoryId: updatedStatu.categoryId,
+      },
+      config
+    );
 
-    axios
-      .get(
-        `http://localhost:80/status/${statuId}`, //props ile geçtiğimiz id sayesinde statuyu alabileceğiz.
-        config
-      )
-      .then((response) => {
-        console.log(response.data);
-        updatedStatu = response.data; //değişiklik yapmak istediğimiz kayıtı state olarak set ettik.
-        updatedStatu.title = textViewValue;
-
-        return updatedStatu;
-      })
-      .then((updatedStatu) => {
-        //güncelleme işlemi
-
-        axios
-          .put(
-            //güncelleme
-            `http://localhost:80/status/${statuId}`,
-            {
-              title: updatedStatu.title,
-              categoryId: updatedStatu.categoryId,
-            },
-            config
-          )
-          .then((response) => {
-            console.log("işlem başarılı");
-            axios
-              .get(
-                //listeyi tekrar çek
-                `http://localhost:80/status?categoryId=${updatedStatu.categoryId}`,
-                config
-              )
-              .then((response) => {
-                console.log("statu listesi alındı");
-                setStatuList(response.data);
-              })
-              .catch((err) => console.log(err.message)); //değişiyor ui kısmında değişmiyor
-          })
-          .catch((err) => console.log(err.message));
-      });
+    const finalResult = await axios.get(
+      //listeyi tekrar çek
+      `http://localhost:80/status?categoryId=${updatedStatu.categoryId}`,
+      config
+    );
+    console.log("statu listesi alındı");
+    setStatuList(finalResult.data);
   };
+
 
   return (
     <React.Fragment>
