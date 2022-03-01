@@ -26,8 +26,6 @@ const EditSingleStatu = ({statuId, setStatuList, statusList,token}: any) => {
     headers: {Authorization: `Bearer ${token}`}
   }
 
-
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
