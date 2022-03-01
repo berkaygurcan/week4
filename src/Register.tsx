@@ -3,7 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import { Button, FormHelperText, Input, InputLabel } from '@mui/material';
 import axios from 'axios';
 
-export default function Register() {
+export default function Register(props: any) {
   // register posts.
   const [formData, setFormData] = useState<any>({}) 
 
@@ -16,21 +16,18 @@ export default function Register() {
   }
   
   const handleRegister = () => {
-   console.log(formData)
+   
    //@todo - istek atılıcak
 
-  //  const config = {
-  //    headers: {Authorization: `Bearer ${"token gelicek"}`}
-  //  };
-  //  const bodyParameters = {
-  //    key: "value"
-  //  }
-
-  //  axios.post(
-  //    'url',
-  //    bodyParameters,
-  //    config
-  //  ).then(console.log).catch(console.log)
+    axios.post(
+      'http://localhost:80/auth/register',
+      formData,
+    ).then(response =>{
+      console.log(response.data)
+      document.cookie = `token= ${response.data.token}`;
+      console.log("giriş başarılı")
+      props.setToken(response.data.token)
+    } ).catch(err => console.log(err.message)) 
    
 
   }

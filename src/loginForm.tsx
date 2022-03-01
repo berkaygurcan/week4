@@ -1,8 +1,10 @@
 
 import { Button, FormHelperText, Input, InputLabel } from '@mui/material'
 import React, { useState } from 'react'
+import axios from 'axios'
 
-export default function LoginForm() {
+
+export default function LoginForm(props:any) {
     // http://localhost:80/auth/login , login postu yapacak.
 
     const [formData, setFormData] = useState<any>({}) 
@@ -15,10 +17,20 @@ export default function LoginForm() {
       
     }
 
-    const handleLogin = () => {
-      console.log(formData)
+    
+
+    const handleLogin = () => {      
       //@todo - istek atılıcak
-   
+      axios.post(
+        'http://localhost:80/auth/login',
+        formData,
+      ).then(response =>{
+        document.cookie = `token= ${response.data.token}`;
+        console.log("giriş başarılı")
+        //burada component return yapsak olur mu ?
+        props.setToken(response.data.token)
+        
+      } ).catch(err => console.log(err.message)) 
      }
   return (
     <div>

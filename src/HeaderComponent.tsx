@@ -22,8 +22,8 @@ export default function Header(props:any) {
             <Tab label="Login" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1"><Register /></TabPanel>
-        <TabPanel value="2"><LoginForm /></TabPanel>
+        <TabPanel value="1"><Register setToken = {props.setToken}/></TabPanel>
+        <TabPanel value="2"><LoginForm setToken = {props.setToken} /></TabPanel>
       </TabContext>
     </Box>
   )

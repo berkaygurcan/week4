@@ -1,6 +1,7 @@
 
 import { Modal, Box, Button, TextField } from '@mui/material'
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import EditStatuModal from './EditStatuModal';
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,8 +17,37 @@ const style = {
   pb: 3,
 };
 
+interface Category {
+  id: number,
+  userId: number,
+  title: string,
+  updatedAt: Date,
+  createdAt: Date
+}
 
-export default function AddCategoryModal() {
+export default function AddCategoryModal({token} : any) {
+
+  const [category, setCategory] = useState<any>({})
+  const [categoryList, setCategoryList] = useState<Category[]>([]) 
+  
+  //apiler için config
+  const config = {
+    headers: {Authorization: `Bearer ${token}`}
+  }
+
+  useEffect(() => {
+    //kategori listesi api'den alınacak
+    axios.get(
+      'http://localhost:80/category',
+      config
+    ).then(response =>{
+      console.log("kategori listesi alındı")
+      //burayı hocaya sorabiliriz
+      setCategoryList(response.data)
+     
+    } ).catch(err => console.log(err.message)) 
+  }, [])
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -25,6 +55,29 @@ export default function AddCategoryModal() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleCreateCategory = () => {
+
+    axios.post(
+      'http://localhost:80/category',
+      category,
+      config
+    ).then(response =>{
+      console.log("kategori ekleme başarılı")
+      console.log(response.data)//state kurgulayınca state güncelleyebiliriz
+      setCategoryList((prev) => [...prev, category]) //kategori Listemiz render edilsin diye state üzerinden ekleme yapıyoruz
+    } ).catch(err => console.log(err.message)) 
+
+  }
+
+  const handleFieldChange = (event: any) => {
+    //textfield alanından değeri aldık
+    const name = event.currentTarget.name
+    const value = event.currentTarget.value   
+    setCategory((prev: any) => ({...prev,[name]: value}))
+    
+  }
+
   return (
     <div>
       <Button onClick={handleOpen}>Edit Categories</Button>
@@ -36,28 +89,21 @@ export default function AddCategoryModal() {
       >
         <Box sx={{ ...style, width: 400 }}>
           <h2 id="parent-modal-title">Text in a modal</h2>
-          <TextField id="standard-basic" label="Standard" variant="standard" />
-          <Button variant="contained">Add Categorie</Button>
+          <TextField onChange={handleFieldChange} id="standard-basic" name='title' label="Standard" variant="standard" />
+          <Button onClick={handleCreateCategory} variant="contained">Add Categorie</Button>
           <p id="parent-modal-description">
             Burada var olan kategoriler listelenecek 
           </p>
 
           <ul>
-            <li>
-                Web Tasarım 
-                <EditStatuModal />
-            </li>
-            <li>
-                Pazarlama 
-                <EditStatuModal />
-            </li>
-            <li>
-                Günledik 
-                <EditStatuModal />
-            </li>
+            {/* Map ile birlikte categorilerimizi listeleyelim */}
+            {categoryList.map((category) => (
+              <li key={category.id}> 
+                {category.title} 
+                <EditStatuModal categoryId = {category.id}/>
+              </li>
+            ))}
           </ul>
-          
-          
         </Box>
       </Modal>
     </div>

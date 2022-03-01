@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import FilterTodo from './FilterTodo'
 import AddCategoryModal from './AddCategoryModal'
 import TodoList from './TodoList'
-export default function MainComponent() {
+export default function MainComponent(props: any) {
     const [open, setOpen] = useState<boolean>(false)
     const handleToggle = () => {
       setOpen(!open);
@@ -14,7 +14,7 @@ export default function MainComponent() {
         <AddTodo />
        <TodoList />
         {/*  modal */}
-        <AddCategoryModal />
+        <AddCategoryModal token = {props.token} />
     </div>
   )
 }
