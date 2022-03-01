@@ -18,7 +18,7 @@ const style = {
   };
 
 
-  interface Statu {
+  export interface Statu {
     id: number,
     title: string,
     color: string,
@@ -46,11 +46,10 @@ const  EditStatuModal = ({token,categoryId}:any) => {
       config
     ).then(response =>{
       console.log("statu listesi alındı")
-      console.log(response.data)
       setStatuList(response.data)
 
     } ).catch(err => console.log(err.message))
-  }, [])
+  }, []) //statu listimiz değiştikçe çalışsın
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -69,13 +68,14 @@ const  EditStatuModal = ({token,categoryId}:any) => {
     ).then(response =>{
       console.log("statu ekleme başarılı")
       console.log(response.data)
-      setStatuList((prev) => [...prev, statu])
+      setStatuList((prev) => [...prev, statu]) //bir adet eklemiyor
+      console.log(statuList)
     } ).catch(err => console.log(err.message))
 
   }
 
   const handleDeleteStatu = (statuId:any) => {
-    
+    console.log(statuId)
     //deletion request
     axios.delete(
       `http://localhost:80/status/${statuId}`,
@@ -89,7 +89,7 @@ const  EditStatuModal = ({token,categoryId}:any) => {
 
   const removeFromStatuState = (statuId:any) => {
     //helper function. Purpose: remove statu from statuList
-    let filteredArray = statuList.filter(item => item.id !== statuId)
+    let filteredArray = statuList.filter(statu => statu.id !== statuId)
     setStatuList(filteredArray);
   }
 
@@ -128,7 +128,7 @@ const  EditStatuModal = ({token,categoryId}:any) => {
               <li key={statu.id}>
                 {statu.title}
                 <Button onClick={() => handleDeleteStatu(statu.id)} >Delete</Button>
-                <EditSingleStatu />
+                <EditSingleStatu token = {token} setStatuList = {setStatuList} statusList = {setStatuList} statuId = {statu.id} />
               </li>
             ))}
           </ul>

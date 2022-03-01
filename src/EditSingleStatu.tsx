@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { Modal, Box, Button, TextField } from '@mui/material';
+import axios from 'axios';
+import { Statu } from './EditStatuModal';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -14,7 +16,18 @@ const style = {
     pb: 3,
   };
   
-const EditSingleStatu = () => {
+const EditSingleStatu = ({statuId, setStatuList, statusList,token}: any) => {
+
+  const [textViewValue,setTextViewValue] = useState<any>()
+  let updatedStatu: Statu
+
+   //apiler için config
+   const config = {
+    headers: {Authorization: `Bearer ${token}`}
+  }
+
+
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -22,6 +35,55 @@ const EditSingleStatu = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleFieldChange = (event: any) => {
+
+    const name = event.currentTarget.name
+    const value = event.currentTarget.value
+    setTextViewValue(value)
+    
+  }
+
+  const handleClick = () => {
+
+    //id değeri ile birlikte ilk önce statumuzu bulalım sonra güncelleyelim
+
+    //@todo- error handling yap boş textboxlar için
+   
+    axios.get(
+      `http://localhost:80/status/${statuId}`,//props ile geçtiğimiz id sayesinde statuyu alabileceğiz.
+      config
+      ).then(response =>{
+        console.log(response.data)
+        updatedStatu = response.data //değişiklik yapmak istediğimiz kayıtı state olarak set ettik.
+        updatedStatu.title = textViewValue
+        
+        return updatedStatu
+    } ).then(updatedStatu => { //güncelleme işlemi
+        
+        axios.put( //güncelleme
+          `http://localhost:80/status/${statuId}`,
+          {
+            title: updatedStatu.title,
+            categoryId: updatedStatu.categoryId
+          },
+          config
+          ).then(response =>{
+            
+            console.log("işlem başarılı")
+            axios.get( //listeyi tekrar çek
+              `http://localhost:80/status?categoryId=${updatedStatu.categoryId}`,
+              config
+            ).then(response =>{
+              console.log("statu listesi alındı")
+              setStatuList(response.data)
+        
+            } ).catch(err => console.log(err.message))//değişiyor ui kısmında değişmiyor            
+            
+        } ).catch(err => console.log(err.message))
+    })
+
+  }
 
 
   return (
@@ -36,9 +98,9 @@ const EditSingleStatu = () => {
       >
         <Box sx={{ ...style, width: 300 }}>
           <h2 id="child-modal-title">Text in a child modal</h2>
-          <TextField id="standard-basic" label="Status" variant="standard" />
-          
-          <Button variant="contained">Edit</Button>
+          <TextField id="textfield-updateStatu" name='title' onChange={handleFieldChange} label="Status" variant="standard" />
+        
+          <Button variant="contained" onClick={handleClick} >Edit</Button>
 
           <p id="child-modal-description">
             Burada bir tek statü editlenecek
