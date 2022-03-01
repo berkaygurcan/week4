@@ -27,7 +27,7 @@ interface Category {
 
 export default function AddCategoryModal({token} : any) {
 
-  const [category, setCategory] = useState<any>({})
+  const [category, setCategory] = useState<any>({}) //title içerecek
   const [categoryList, setCategoryList] = useState<Category[]>([]) 
   
   //apiler için config
@@ -42,7 +42,7 @@ export default function AddCategoryModal({token} : any) {
       config
     ).then(response =>{
       console.log("kategori listesi alındı")
-      //burayı hocaya sorabiliriz
+      //burayı hocaya sorabiliriz **** prev state kullanacakmıyız
       setCategoryList(response.data)
      
     } ).catch(err => console.log(err.message)) 
@@ -57,14 +57,13 @@ export default function AddCategoryModal({token} : any) {
   };
 
   const handleCreateCategory = () => {
-
+    //@todo- error handling yap boş textboxlar için
     axios.post(
       'http://localhost:80/category',
       category,
       config
     ).then(response =>{
       console.log("kategori ekleme başarılı")
-      console.log(response.data)//state kurgulayınca state güncelleyebiliriz
       setCategoryList((prev) => [...prev, category]) //kategori Listemiz render edilsin diye state üzerinden ekleme yapıyoruz
     } ).catch(err => console.log(err.message)) 
 
@@ -100,7 +99,8 @@ export default function AddCategoryModal({token} : any) {
             {categoryList.map((category) => (
               <li key={category.id}> 
                 {category.title} 
-                <EditStatuModal categoryId = {category.id}/>
+                {/* hocaya sor */}
+                <EditStatuModal token = {token} categoryId = {category.id}/> 
               </li>
             ))}
           </ul>

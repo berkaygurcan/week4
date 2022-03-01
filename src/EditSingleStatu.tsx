@@ -26,7 +26,7 @@ const EditSingleStatu = () => {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Button onClick={handleOpen}>Düzenle Modal</Button>
       <Modal
         hideBackdrop
         open={open}

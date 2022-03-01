@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Modal, Box, Button, TextField } from '@mui/material';
 import EditSingleStatu from './EditSingleStatu';
 import { LargeNumberLike } from 'crypto';
+import axios from 'axios';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -15,8 +16,42 @@ const style = {
     px: 4,
     pb: 3,
   };
-  
-const  EditStatuModal = (props:any) => {
+
+
+  interface Statu {
+    id: number,
+    title: string,
+    color: string,
+    createdAt: Date,
+    updatedAt: Date,
+    categoryId: number
+  }
+
+const  EditStatuModal = ({token,categoryId}:any) => {
+
+  const [statu, setStatu] = useState<any>({
+    categoryId,//prop olarak aldığımız kategoriyi ekledik.İstek atarken lazım olacak
+  })
+  const [statuList, setStatuList] = useState<Statu[]>([])
+
+   //apiler için config
+   const config = {
+    headers: {Authorization: `Bearer ${token}`}
+  }
+
+  useEffect(() => {
+    //statu listesi api'den alınacak
+    axios.get(
+      `http://localhost:80/status?categoryId=${categoryId}`,
+      config
+    ).then(response =>{
+      console.log("statu listesi alındı")
+      console.log(response.data)
+      setStatuList(response.data)
+
+    } ).catch(err => console.log(err.message))
+  }, [])
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -25,9 +60,51 @@ const  EditStatuModal = (props:any) => {
     setOpen(false);
   };
 
+  const handleAddStatu = () => {
+    //@todo- error handling yap boş textboxlar için
+    axios.post(
+      'http://localhost:80/status',
+      statu,
+      config
+    ).then(response =>{
+      console.log("statu ekleme başarılı")
+      console.log(response.data)
+      setStatuList((prev) => [...prev, statu])
+    } ).catch(err => console.log(err.message))
+
+  }
+
+  const handleDeleteStatu = (statuId:any) => {
+    
+    //deletion request
+    axios.delete(
+      `http://localhost:80/status/${statuId}`,
+      config
+    ).then(response =>{
+      console.log("statu silme başarılı")
+       removeFromStatuState(statuId)
+    } ).catch(err => console.log(err.message))
+
+  }
+
+  const removeFromStatuState = (statuId:any) => {
+    //helper function. Purpose: remove statu from statuList
+    let filteredArray = statuList.filter(item => item.id !== statuId)
+    setStatuList(filteredArray);
+  }
+
+  const handleFieldChange = (event: any) => {
+
+    const name = event.currentTarget.name
+    const value = event.currentTarget.value
+    setStatu((prev: any) => ({...prev,[name]: value}))
+
+  }
+
+
   return (
     <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Button onClick={handleOpen}>Statu Duzenle Modal</Button>
       <Modal
         hideBackdrop
         open={open}
@@ -37,37 +114,25 @@ const  EditStatuModal = (props:any) => {
       >
         <Box sx={{ ...style, width: 300 }}>
           <h2 id="child-modal-title">Text in a child modal</h2>
-          <TextField id="standard-basic" label="Status" variant="standard" />
-          <TextField id="standard-basic" label="Color" variant="standard" />
-          <Button variant="contained">Add Status</Button>
+          <TextField id="textfield-title" onChange={handleFieldChange} name='title' label="Status" variant="standard" />
+          <TextField id="textfield-color" onChange={handleFieldChange} name='color' label="Color" variant="standard" />
+          <Button onClick={handleAddStatu} variant="contained">Add Statu</Button>
 
           <p id="child-modal-description">
             Burada ilgili kategoriye ait statüler listelenecek
           </p>
-          <ul>
-            <li>
-                Web Tasarım 
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
-                <EditSingleStatu />
 
-                
-            </li>
-            <li>
-                Pazarlama
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
+          <ul>
+            {/* Map ile birlikte statüleri listeleyelim */}
+            {statuList.map((statu) => (
+              <li key={statu.id}>
+                {statu.title}
+                <Button onClick={() => handleDeleteStatu(statu.id)} >Delete</Button>
                 <EditSingleStatu />
-                
-            </li>
-            <li>
-                Günledik
-                <Button >Sil</Button>
-                <Button >Düzenle</Button>
-                <EditSingleStatu />
-                
-            </li>
+              </li>
+            ))}
           </ul>
+
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>
       </Modal>
