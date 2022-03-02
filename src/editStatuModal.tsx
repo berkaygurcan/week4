@@ -57,37 +57,50 @@ const EditStatuModal = ({ token, categoryId }: any) => {
       .catch((err) => console.log(err.message));
   }, []); //statu listimiz değiştikçe çalışsın
 
-  const handleAddStatu = () => {
+  const handleAddStatu = async() => {
     //@todo- error handling yap boş textboxlar için
-    axios
-      .post("http://localhost:80/status", statu, config)
-      .then((response) => {
-        console.log("statu ekleme başarılı");
-        axios
-          .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
-          .then((response) => {
-            setStatuList(response.data);
-          });
-      })
-      .catch((err) => console.log(err.message));
-  };
 
-  const handleDeleteStatu = (statuId: any) => {
+    await axios.post("http://localhost:80/status", statu, config)
+    const res =  await  axios.get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+    setStatuList(res.data);
+  
+};
+
+  //   axios
+  //     .post("http://localhost:80/status", statu, config)
+  //     .then((response) => {
+  //       console.log("statu ekleme başarılı");
+  //       axios
+  //         .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+  //         .then((response) => {
+  //           setStatuList(response.data);
+  //         });
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
+
+  const handleDeleteStatu = async(statuId: any) => {
     //deletion request
 
-    axios
-      .delete(`http://localhost:80/status/${statuId}`, config)
-      .then((response) => {
-        console.log("silme işlemi başarılı");
-        axios
-          .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
-          .then((response) => {
-            console.log(response.data);
-            setStatuList(response.data);
-          });
-      })
-      .catch((err) => console.log(err.message));
-  };
+    await axios.delete(`http://localhost:80/status/${statuId}`, config)
+    console.log("silme işlemi başarılı");
+    const res =  await  axios.get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+    setStatuList(res.data);
+  }
+
+  //   axios
+  //     .delete(`http://localhost:80/status/${statuId}`, config)
+  //     .then((response) => {
+  //       console.log("silme işlemi başarılı");
+  //       axios
+  //         .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+  //         .then((response) => {
+  //           console.log(response.data);
+  //           setStatuList(response.data);
+  //         });
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
   const handleFieldChange = (event: any) => {
     const name = event.currentTarget.name;
@@ -137,7 +150,7 @@ const EditStatuModal = ({ token, categoryId }: any) => {
                 <Button onClick={() => handleDeleteStatu(statu.id)}>
                   Delete
                 </Button>
-                <EditSingleStatu
+                <EditSingleStatu //Düzenle
                   token={token}
                   setStatuList={setStatuList}
                   statusList={setStatuList}

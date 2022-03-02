@@ -67,7 +67,6 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
     setStatuList(finalResult.data);
   };
 
-
   return (
     <React.Fragment>
       <Button onClick={handleOpen}>Düzenle Modal</Button>
