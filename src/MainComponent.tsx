@@ -10,9 +10,9 @@ export default function MainComponent(props: any) {
     }
   return (
     <div>
-       <FilterTodo />
-        <AddTodo />
-       <TodoList />
+       <FilterTodo token = {props.token}/>
+        <AddTodo token = {props.token}/>
+       <TodoList token = {props.token}/>
         {/*  modal */}
         <AddCategoryModal token = {props.token} />
     </div>

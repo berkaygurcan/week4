@@ -61,7 +61,7 @@ const EditStatuModal = ({ token, categoryId }: any) => {
     //@todo- error handling yap boş textboxlar için
 
     await axios.post("http://localhost:80/status", statu, config)
-    const res =  await  axios.get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+    const res =  await axios.get(`http://localhost:80/status?categoryId=${categoryId}`, config)
     setStatuList(res.data);
   
 };

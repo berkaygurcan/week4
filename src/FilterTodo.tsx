@@ -2,7 +2,7 @@ import { TextField,InputLabel, Select, MenuItem, Box, Button } from '@mui/materi
 import FormControl from '@mui/material/FormControl';
 import React from 'react'
 
-export default function FilterTodo() {
+export default function FilterTodo(props:any) {
   return (
     <div>
       <h3>Filter Todo Section</h3>
