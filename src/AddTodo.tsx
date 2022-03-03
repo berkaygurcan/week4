@@ -23,21 +23,23 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
     
     setAddTodo((prev: any) => ({...prev,[name]: value}))
     if(name === "categoryId") {// eğer event category kısmından geliyorsa statü selectleri güncellememiz gerekir
-      getStatus(addTodo.categoryId)
+      getStatus(value)
     }
   
   }
 
   const getStatus = async(categoryId:any) => {
     const res = await axios.get(`http://localhost:80/status?categoryId=${categoryId}`,config)
-    console.log(res.data)
-    setStatuList(res.data)
+    console.log("response data ",res.data)
+   setStatuList(res.data)
   }
   
   const handleAddTodo = async() => {
     const resAddedTodo = await axios.post(`http://localhost:80/todo`,addTodo,config)
     const res =  await axios.get("http://localhost:80/todo",config) //güncellenen todo listelerini tekrar çekiyoruz
     setTodoList(res.data)
+    //ekleme işleminden sonra state içini boşaltalım
+    setAddTodo({})
     
   }
 
