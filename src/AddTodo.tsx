@@ -22,6 +22,7 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
     const value = event.target.value   
     
     setAddTodo((prev: any) => ({...prev,[name]: value}))
+    console.log(value)
     if(name === "categoryId") {// eğer event category kısmından geliyorsa statü selectleri güncellememiz gerekir
       getStatus(value)
     }
@@ -31,7 +32,7 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
   const getStatus = async(categoryId:any) => {
     const res = await axios.get(`http://localhost:80/status?categoryId=${categoryId}`,config)
     console.log("response data ",res.data)
-   setStatuList(res.data)
+    setStatuList(res.data)
   }
   
   const handleAddTodo = async() => {
@@ -39,7 +40,7 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
     const res =  await axios.get("http://localhost:80/todo",config) //güncellenen todo listelerini tekrar çekiyoruz
     setTodoList(res.data)
     //ekleme işleminden sonra state içini boşaltalım
-    setAddTodo({})
+    
     
   }
 
@@ -65,7 +66,7 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
       <FormControl >
         <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
         {/* Category Select */}
-        <Select defaultValue="" name='categoryId' onChange={handleFieldChange} sx={{width: 100}}
+        <Select defaultValue=""  name='categoryId' onChange={handleFieldChange} sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="category-select"
           label="Age"

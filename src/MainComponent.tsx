@@ -33,6 +33,9 @@ export default function MainComponent(props: any) {
         token={props.token}
         todoList={todoList}
         setTodoList={setTodoList}
+        categoryList={categoryList}
+        statuList={statuList}
+        setStatuList={setStatuList}
       />
       {/*  modal */}
       <AddCategoryModal

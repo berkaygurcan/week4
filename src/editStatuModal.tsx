@@ -38,11 +38,12 @@ const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
   };
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    getStatus(categoryId)
+  const handleOpen = async() => {
+    await getStatus(categoryId)
     setOpen(true);
   };
   const handleClose = () => {
+    setStatuList([])
     setOpen(false);
   };
 
