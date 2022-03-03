@@ -27,12 +27,11 @@ export interface Statu {
   categoryId: number;
 }
 
-const EditStatuModal = ({ token, categoryId }: any) => {
+const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
   const [statu, setStatu] = useState<any>({
     categoryId, //prop olarak aldığımız kategoriyi ekledik.İstek atarken lazım olacak
   });
-  const [statuList, setStatuList] = useState<Statu[]>([]);
-
+ 
   //apiler için config
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -40,22 +39,23 @@ const EditStatuModal = ({ token, categoryId }: any) => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
+    getStatus(categoryId)
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    //statu listesi api'den alınacak
-    axios
-      .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
-      .then((response) => {
-        console.log("statu listesi alındı");
-        setStatuList(response.data);
-      })
-      .catch((err) => console.log(err.message));
-  }, []); //statu listimiz değiştikçe çalışsın
+  // useEffect(() => {
+  //   //statu listesi api'den alınacak
+  //   axios
+  //     .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
+  //     .then((response) => {
+  //       console.log("statu listesi alındı");
+  //       setStatuList(response.data);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // }, []); //statu listimiz değiştikçe çalışsın
 
   const handleAddStatu = async() => {
     //@todo- error handling yap boş textboxlar için
@@ -65,20 +65,6 @@ const EditStatuModal = ({ token, categoryId }: any) => {
     setStatuList(res.data);
   
 };
-
-  //   axios
-  //     .post("http://localhost:80/status", statu, config)
-  //     .then((response) => {
-  //       console.log("statu ekleme başarılı");
-  //       axios
-  //         .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
-  //         .then((response) => {
-  //           setStatuList(response.data);
-  //         });
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // };
-
   const handleDeleteStatu = async(statuId: any) => {
     //deletion request
 
@@ -88,25 +74,17 @@ const EditStatuModal = ({ token, categoryId }: any) => {
     setStatuList(res.data);
   }
 
-  //   axios
-  //     .delete(`http://localhost:80/status/${statuId}`, config)
-  //     .then((response) => {
-  //       console.log("silme işlemi başarılı");
-  //       axios
-  //         .get(`http://localhost:80/status?categoryId=${categoryId}`, config)
-  //         .then((response) => {
-  //           console.log(response.data);
-  //           setStatuList(response.data);
-  //         });
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // };
 
   const handleFieldChange = (event: any) => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     setStatu((prev: any) => ({ ...prev, [name]: value }));
   };
+
+  const getStatus = async(categoryId:number) => {
+    const res = await axios.get(`http://localhost:80/status?categoryId=${categoryId}`,config)
+    setStatuList(res.data)
+  }
 
   return (
     <React.Fragment>
@@ -144,7 +122,7 @@ const EditStatuModal = ({ token, categoryId }: any) => {
 
           <ul>
             {/* Map ile birlikte statüleri listeleyelim */}
-            {statuList.map((statu) => (
+            {statuList.map((statu:any) => (
               <li key={statu.id}>
                 {statu.title}
                 <Button onClick={() => handleDeleteStatu(statu.id)}>

@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 
-interface Todo {
+export interface Todo {
   id: number,
   title: string,
   createdAt: Date,
@@ -12,9 +12,9 @@ interface Todo {
   statusId: number
 }
 
-export default function TodoList({ token }: any) {
+export default function TodoList({ token, todoList, setTodoList }: any) {
  
-  const [todoList, setTodoList] = useState<Todo[]>([])
+  
 
   useEffect(() => {
     getTodoList() 
@@ -34,7 +34,7 @@ export default function TodoList({ token }: any) {
   return (
     <div>
       <ul>
-        {todoList.map((todo) => (
+        {todoList.map((todo: any) => (
           <li key={todo.id}>
             {todo.title}
           </li>

@@ -11,7 +11,7 @@ export default function FilterTodo(props:any) {
       <FormControl >
         <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
         {/* Category Select */}
-        <Select sx={{width: 100}}
+        <Select defaultValue="" sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="category-select"
           label="Age"
@@ -25,7 +25,7 @@ export default function FilterTodo(props:any) {
       <FormControl >
         <InputLabel id="demo-simple-select-label">Status</InputLabel>
         {/* Category Select */}
-        <Select sx={{width: 100}}
+        <Select defaultValue="" sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="status-select"
           label="Age"

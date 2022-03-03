@@ -4,22 +4,55 @@ import axios from 'axios';
 import React, { useState } from 'react'
 
 
-export default function AddTodo({ token }: any) {
+export default function AddTodo({ token, categoryList ,statuList ,setStatuList, setTodoList }: any) {
 
   const [addTodo, setAddTodo] = useState<any>({})
+  
+  // const [selectedCategoryId, setSelectedCategoryId] = useState<number>() //category id (state tutma mantıgımız ne buradaki)
+  // const [selectedStatuId, setSelectedStatuId] = useState<number>() 
 
     //apiler için config
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-  const handleFieldChange = (event: any) => {
-    //textfield alanından değeri aldık
-    const name = event.currentTarget.name
-    const value = event.currentTarget.value   
+  const handleFieldChange = async(event: any) => {
+    //generic func
+    const name = event.target.name
+    const value = event.target.value   
+    
     setAddTodo((prev: any) => ({...prev,[name]: value}))
+    if(name === "categoryId") {// eğer event category kısmından geliyorsa statü selectleri güncellememiz gerekir
+      getStatus(addTodo.categoryId)
+    }
+  
+  }
+
+  const getStatus = async(categoryId:any) => {
+    const res = await axios.get(`http://localhost:80/status?categoryId=${categoryId}`,config)
+    console.log(res.data)
+    setStatuList(res.data)
+  }
+  
+  const handleAddTodo = async() => {
+    const resAddedTodo = await axios.post(`http://localhost:80/todo`,addTodo,config)
+    const res =  await axios.get("http://localhost:80/todo",config) //güncellenen todo listelerini tekrar çekiyoruz
+    setTodoList(res.data)
     
   }
+
+  //  const handleCategoryChange = (e: any) => {
+  //    //seçilen optiondaki category idsini alma
+  //    setSelectedCategoryId(e.target.value)
+  //    console.log(e.target.name)
+  //    getStatus(selectedCategoryId)
+  //  }
+
+  //  const handleStatuChange = (e: any) => {
+  //    //seçilen optiondaki category idsini alma
+  //    setSelectedStatuId(e.target.value)
+  //    getStatus(selectedStatuId)
+  //  }
   
   return (
     <div>
@@ -30,32 +63,33 @@ export default function AddTodo({ token }: any) {
       <FormControl >
         <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
         {/* Category Select */}
-        <Select  sx={{width: 100}}
+        <Select defaultValue="" name='categoryId' onChange={handleFieldChange} sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="category-select"
           label="Age"
         >
-          <MenuItem value={10}>Web Tasarım</MenuItem>
-          <MenuItem value={20}>Pazarlama</MenuItem>
-          <MenuItem value={30}>Gündelik</MenuItem>
+          {categoryList.map((category: any)=> (
+            <MenuItem value={category.id}>{category.title}</MenuItem>
+          ))}
+          
         </Select>
       </FormControl>
 
       <FormControl >
         <InputLabel id="demo-simple-select-label">Status</InputLabel>
         {/* Category Select */}
-        <Select sx={{width: 100}}
+        <Select defaultValue="" name='statusId' onChange= {handleFieldChange} sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="status-select"
           label="Age"
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {addTodo.categoryId && statuList.map((statu: any)=> (
+            <MenuItem value={statu.id}>{statu.title}</MenuItem>
+          ))}
         </Select>
       </FormControl>
 
-      <Button variant="contained">Add Todo</Button>
+      <Button variant="contained" onClick={handleAddTodo}>Add Todo</Button>
 
     </Box>
   
