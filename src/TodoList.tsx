@@ -29,7 +29,7 @@ export default function TodoList({ token, todoList, setTodoList, categoryList, s
     setTodoList(res.data)
   }
 
-  const handleChange = async(event: any) => {
+  const handleChangeCategory = async(event: any) => {
     //generic func
     const name = event.target.name
     const value = event.target.value   
@@ -40,10 +40,20 @@ export default function TodoList({ token, todoList, setTodoList, categoryList, s
 
   }
 
+  const handleChangeStatu = () => {
+
+  }
+
   const getStatus = async(categoryId:any) => {
     const res = await axios.get(`http://localhost:80/status?categoryId=${categoryId}`,config)
     console.log("response data ",res.data)
     setStatuList(res.data)
+  }
+
+  const getSingleStatu = async(statusId:any) => {
+    const res = await axios.get(`http://localhost:80/status/${statusId}`,config)
+    console.log("response data ",res.data)
+    return res.data.title
   }
  
   return (
@@ -56,7 +66,7 @@ export default function TodoList({ token, todoList, setTodoList, categoryList, s
               <FormControl sx={{ marginLeft: 3 }}>
                 <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
                 {/* Category Select */}
-                <Select defaultValue={todo.categoryId} onChange={handleChange} name='categoryId' sx={{ width: 200 }}
+                <Select defaultValue={todo.categoryId} onChange={handleChangeCategory} name='categoryId' sx={{ width: 200 }}
                   labelId="demo-simple-select-label"
                   label="Age"
                 >
@@ -75,9 +85,12 @@ export default function TodoList({ token, todoList, setTodoList, categoryList, s
                   labelId="demo-simple-select-label"
                   label="Age"
                 >
-                  {statuList.map((statu: any) => (
-                    <MenuItem value={statu.id}>{statu.title}</MenuItem>
-                  ))}
+                  {statuList && statuList.map((statu: any) => 
+                  {
+                    console.log(statu.title) // her değişimde fazladan render ediliyor 
+                   return <MenuItem value={statu.id}>{statu.title}</MenuItem>
+                  }
+                  )}
 
                 </Select>
               </FormControl>
