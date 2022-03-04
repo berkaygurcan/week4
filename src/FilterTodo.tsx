@@ -20,8 +20,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
    
     //filterimizi setleriz her değişiklikte 
     setFilter((prev: any) => ({...prev,[name]: value}))
-      
-  
+    
   }
   
   //apiler için config
@@ -32,7 +31,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
   const handleFilter = () => {
     
     const filteredTodoList = todoList.filter((todo: any) => {
-       return todo.title === filter.title 
+       return todo.categoryId === filter.categoryId 
     })
     setTodoList(filteredTodoList)
     console.log(filteredTodoList)
@@ -62,6 +61,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
           labelId="demo-simple-select-label"
           onChange={handleChange}
           id="filter-category-select"
+          
           name='categoryId'
           label="Age"
         >

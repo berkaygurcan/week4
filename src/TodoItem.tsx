@@ -8,6 +8,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
     const [status, setStatus] = useState("");
     const [statuList,setStatuList] = useState([]);
     
+  
     useEffect(() => {
         getTodoInfo();
         getStatus(todo.categoryId)
@@ -83,7 +84,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
                 <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
                 {/* Category Select */}
                 <Select
-                  defaultValue={todo.categoryId}
+                  value={todo.categoryId}
                   onChange={handleChange}
                   name="categoryId"
                   sx={{ width: 200 }}
@@ -100,7 +101,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
                 <InputLabel id="demo-simple-select-label">Status</InputLabel>
                 {/* Status Select */}
                 <Select
-                  defaultValue={todo.statusId}
+                  value={todo.statusId}
                   onChange={handleChange}
                   name="statusId"
                   sx={{ width: 200 }}
