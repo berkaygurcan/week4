@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 export default function FilterTodo({token,todoList, setTodoList, categoryList, statuList, setStatuList}:any) {
 
   const initialFilterState = {
-    title: null,
+    title: "",
     categoryId: null,
     statusId: null
   };
@@ -39,8 +39,9 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
 
   const handleResetFilter = () => {
      //filter ve filteredTodoList kısmını clear etmemiz lazım
-     setFilter(initialFilterState)
-     getTodoList() //api den listemizi alıp statemizi tekrar atama yaparız
+     getTodoList().then(()=>{
+      setFilter(initialFilterState)
+     })
   }
 
   const getTodoList = async () => {
@@ -53,7 +54,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
     <div>
       <h3>Filter Todo Section</h3>
       <Box sx={{ minWidth: 120 , display: 'flex'  }}>
-      <TextField id="filter-textfield-basic" onChange={handleChange} name = "title" label="Outlined" variant="outlined" /> 
+      <TextField id="filter-textfield-basic" value={filter.title} onChange={handleChange} name = "title" label="Outlined" variant="outlined" /> 
       <FormControl >
         <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
         {/* Category Select */}
@@ -61,7 +62,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
           labelId="demo-simple-select-label"
           onChange={handleChange}
           id="filter-category-select"
-          
+          value={filter.categoryId}
           name='categoryId'
           label="Age"
         >
@@ -77,6 +78,7 @@ export default function FilterTodo({token,todoList, setTodoList, categoryList, s
         {/* Category Select */}
         <Select defaultValue="" sx={{width: 100}}
           labelId="demo-simple-select-label"
+          value={filter.statusId}
           id="filter-status-select"
           label="Age"
         >
