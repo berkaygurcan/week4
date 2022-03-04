@@ -18,7 +18,14 @@ export default function MainComponent(props: any) {
 
   return (
     <div>
-      <FilterTodo token={props.token} />
+      <FilterTodo
+        token={props.token}
+        todoList={todoList}
+        setTodoList={setTodoList}
+        categoryList={categoryList}
+        statuList={statuList}
+        setStatuList={setStatuList}
+      />
       {/* props olarak statu list verilebilir mi?  */}
       <AddTodo
         token={props.token}
