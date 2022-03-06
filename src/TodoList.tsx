@@ -32,6 +32,7 @@ export default function TodoList({
 
   const getTodoList = async () => {
     const res = await axios.get("http://localhost:80/todo", config);
+    console.log("todo response = ",res.data)
     setTodoList(res.data);
   };
 

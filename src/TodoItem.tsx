@@ -8,13 +8,12 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
     const [status, setStatus] = useState("");
     const [statuList,setStatuList] = useState([]);
     
-  
     useEffect(() => {
         getTodoInfo();
         getStatus(todo.categoryId)
+        
     }, [])
 
-    
     //apiler için config
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -29,7 +28,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
     setStatuList(res.data);
   };
 
-  const handleChange = async (event: any) => {
+  const handleChange =  (event: any) => {
     //generic func
     const name = event.target.name;
     const value = event.target.value;
@@ -57,7 +56,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         statusId: todo.statusId
     }
     await axios.put(`http://localhost:80/todo/${todo.id}`,data,config)
-    console.log("güncelleme tamamlandı")
+    console.log("kategori güncelleme tamamlandı")
   }
 
   const updateStatusTodo = async(newStatusId:any) => {
@@ -67,7 +66,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         statusId: newStatusId
     }
     await axios.put(`http://localhost:80/todo/${todo.id}`,data,config)
-    console.log("güncelleme tamamlandı")
+    console.log("statu güncelleme tamamlandı")
   }
 
     function getTodoInfo() {
@@ -79,7 +78,6 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
     <div>
       <li key={todo.id} style={{ marginBottom: 5 }}>
               {todo.title}
-              {/*@todo- todo item yap içine todo listesinden gelen todoların category,statu idlerini geçir */}
               <FormControl sx={{ marginLeft: 3 }}>
                 <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
                 {/* Category Select */}

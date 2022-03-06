@@ -17,10 +17,12 @@ export default function LoginForm(props:any) {
       
     }
 
-    
-
     const handleLogin = () => {      
       
+      if(!formData.username || !formData.password) {
+        console.log("lütfen alanları giriniz")
+        return false
+      }
       axios.post(
         'http://localhost:80/auth/login',
         formData,

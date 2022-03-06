@@ -16,9 +16,12 @@ export default function Register(props: any) {
   }
   
   const handleRegister = () => {
-   
-   //@todo - istek atılıcak
 
+
+   if(!formData.username || !formData.password || !formData.passwordConfirm) {
+    console.log("lütfen alanları giriniz")
+    return false
+  }
     axios.post(
       'http://localhost:80/auth/register',
       formData,
@@ -29,7 +32,6 @@ export default function Register(props: any) {
       props.setToken(response.data.token)
     } ).catch(err => console.log(err.message)) 
    
-
   }
   return (
     <div>
