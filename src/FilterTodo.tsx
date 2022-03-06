@@ -64,7 +64,7 @@ export default function FilterTodo({
       .then(response => {
         console.log(response)
         console.log(response.data)
-        
+        setTodoList(response.data)
       });
   
   };
