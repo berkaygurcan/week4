@@ -54,6 +54,11 @@ export default function FilterTodo({
   };
 
   const handleFilter = () => {
+
+    if(!filter.categoryId && !filter.statusId && !filter.title) {
+      console.log("lütfen filtreleme seçeneklerinden en az birini seçiniz")
+      return false
+    }
     
     console.log(filter)
     const res = axios
@@ -77,8 +82,8 @@ export default function FilterTodo({
   };
 
   const getTodoList = async () => {
-    const res = await axios.get("http://localhost:80/todo", config);
-    setTodoList(res.data);
+    const res = await axios.get("http://localhost:80/todo", config).catch(err => console.log(err.message))
+    
   };
 
   return (

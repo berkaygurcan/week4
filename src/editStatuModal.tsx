@@ -59,7 +59,12 @@ const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
   // }, []); //statu listimiz değiştikçe çalışsın
 
   const handleAddStatu = async() => {
-    //@todo- error handling yap boş textboxlar için
+  
+
+    if(!statu.title || !statu.color) {
+      console.log("değerlerin hepsini girmeniz gerekli")
+      return false
+    }
 
     await axios.post("http://localhost:80/status", statu, config)
     const res =  await axios.get(`http://localhost:80/status?categoryId=${categoryId}`, config)

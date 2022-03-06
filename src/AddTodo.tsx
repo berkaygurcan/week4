@@ -36,27 +36,19 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
   }
   
   const handleAddTodo = async() => {
+
+    if(addTodo.title! || addTodo.categoryId! || addTodo.statusId!) {
+      console.log("alanların hepsini giriniz")
+      return false
+    }
+
     const resAddedTodo = await axios.post(`http://localhost:80/todo`,addTodo,config)
     const res =  await axios.get("http://localhost:80/todo",config) //güncellenen todo listelerini tekrar çekiyoruz
     setTodoList(res.data)
-    //ekleme işleminden sonra state içini boşaltalım
-    
+    //@todo - ekleme işleminden sonra state içini boşaltalım
     
   }
 
-  //  const handleCategoryChange = (e: any) => {
-  //    //seçilen optiondaki category idsini alma
-  //    setSelectedCategoryId(e.target.value)
-  //    console.log(e.target.name)
-  //    getStatus(selectedCategoryId)
-  //  }
-
-  //  const handleStatuChange = (e: any) => {
-  //    //seçilen optiondaki category idsini alma
-  //    setSelectedStatuId(e.target.value)
-  //    getStatus(selectedStatuId)
-  //  }
-  
   return (
     <div>
       <h3>Add Todo Section</h3>
@@ -80,7 +72,6 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
 
       <FormControl >
         <InputLabel id="demo-simple-select-label">Status</InputLabel>
-        {/* Category Select */}
         <Select defaultValue="" name='statusId' onChange= {handleFieldChange} sx={{width: 100}}
           labelId="demo-simple-select-label"
           id="status-select"

@@ -20,7 +20,7 @@ export default function LoginForm(props:any) {
     
 
     const handleLogin = () => {      
-      //@todo - istek atılıcak
+      
       axios.post(
         'http://localhost:80/auth/login',
         formData,

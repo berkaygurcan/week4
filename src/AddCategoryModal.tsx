@@ -58,6 +58,10 @@ export default function AddCategoryModal({token, categoryList, setCategoryList,s
 
   const handleCreateCategory = () => {
     //@todo- error handling yap boş textboxlar için
+    if(!category.title) {
+      console.log("Kategori ismini giriniz")
+      return false
+    }
     axios.post(
       'http://localhost:80/category',
       category,

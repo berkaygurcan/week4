@@ -41,14 +41,22 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
 
   const handleClick = async () => {
     //id değeri ile birlikte ilk önce statumuzu bulalım sonra güncelleyelim
+
+    if(!textViewValue) { //error handling
+      console.log("lütfen güncellemek istediğiniz statü ismini giriniz")
+      return false
+    } 
+
     const res = await axios.get(
       `http://localhost:80/status/${statuId}`, //props ile geçtiğimiz id sayesinde statuyu alabileceğiz.
       config
     );
     updatedStatu = res.data; //değişiklik yapmak istediğimiz kayıtı state olarak set ettik.
+    
     updatedStatu.title = textViewValue;
+    
 
-    const responseUpdatedStatu = await axios.put(
+    await axios.put(
       //güncelleme
       `http://localhost:80/status/${statuId}`,
       {
