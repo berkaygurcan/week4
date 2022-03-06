@@ -14,6 +14,8 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         
     }, [])
 
+
+
     //apiler için config
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -43,10 +45,9 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         // eğer event status kısmından geliyorsa statü selectleri güncellememiz gerekir
         updateStatusTodo(value)// value = statusId
       }
+      
+      
 
-      getTodoList()
-
-    
   };
 
   const updateChangeTodo = async(newCategoryId:any) => {
@@ -55,8 +56,10 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         categoryId: newCategoryId,
         statusId: todo.statusId
     }
-    await axios.put(`http://localhost:80/todo/${todo.id}`,data,config)
+    await axios.put(`http://localhost:80/todo/${todo.id}`,data,config).then(() => getTodoList())
+    
     console.log("kategori güncelleme tamamlandı")
+    
   }
 
   const updateStatusTodo = async(newStatusId:any) => {
@@ -65,7 +68,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
         categoryId: todo.categoryId,
         statusId: newStatusId
     }
-    await axios.put(`http://localhost:80/todo/${todo.id}`,data,config)
+    await axios.put(`http://localhost:80/todo/${todo.id}`,data,config).then(() => getTodoList())
     console.log("statu güncelleme tamamlandı")
   }
 
