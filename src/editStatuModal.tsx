@@ -27,7 +27,7 @@ export interface Statu {
   categoryId: number;
 }
 
-const EditStatuModal = ({ token, categoryId,statuList,setStatuList,getTodoList}: any) => {
+const EditStatuModal = ({ token, categoryId,statuList,setStatuList, getTodoList}: any) => {
   const [statu, setStatu] = useState<any>({
     categoryId, //prop olarak aldığımız kategoriyi ekledik.İstek atarken lazım olacak
   });
