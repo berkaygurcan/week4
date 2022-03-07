@@ -27,7 +27,7 @@ export interface Statu {
   categoryId: number;
 }
 
-const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
+const EditStatuModal = ({ token, categoryId,statuList,setStatuList,getTodoList}: any) => {
   const [statu, setStatu] = useState<any>({
     categoryId, //prop olarak aldığımız kategoriyi ekledik.İstek atarken lazım olacak
   });
@@ -44,6 +44,7 @@ const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
   };
   const handleClose = () => {
     setStatuList([])
+    getTodoList()
     setOpen(false);
   };
 
@@ -139,6 +140,7 @@ const EditStatuModal = ({ token, categoryId,statuList,setStatuList}: any) => {
                   setStatuList={setStatuList}
                   statusList={setStatuList}
                   statuId={statu.id}
+                  getTodoList = {getTodoList}
                 />
               </li>
             ))}

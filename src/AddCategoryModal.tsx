@@ -25,7 +25,7 @@ export interface Category {
   createdAt: Date
 }
 
-export default function AddCategoryModal({token, categoryList, setCategoryList,setStatuList,statuList} : any) {
+export default function AddCategoryModal({token, categoryList, setCategoryList,setStatuList,statuList, getTodoList} : any) {
 
   const [category, setCategory] = useState<any>({}) //title içerecek
   
@@ -68,7 +68,9 @@ export default function AddCategoryModal({token, categoryList, setCategoryList,s
       config
     ).then(response =>{
       console.log("kategori ekleme başarılı")
+      
       setCategoryList((prev:any) => [...prev, category]) //kategori Listemiz render edilsin diye state üzerinden ekleme yapıyoruz
+      //burada neden setlemiyor? - ilk bug
     } ).catch(err => console.log(err.message)) 
 
   }
@@ -104,7 +106,7 @@ export default function AddCategoryModal({token, categoryList, setCategoryList,s
               <li key={category.id}> 
                 {category.title} 
                 {/* hocaya sor */}
-                <EditStatuModal token = {token} categoryId = {category.id} statuList= {statuList} setStatuList={setStatuList}/> 
+                <EditStatuModal token = {token} categoryId = {category.id} statuList= {statuList} setStatuList={setStatuList} getTodoList = {getTodoList}/> 
               </li>
             ))}
           </ul>

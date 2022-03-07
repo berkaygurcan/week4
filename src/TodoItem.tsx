@@ -78,6 +78,7 @@ const TodoItem = ({todo, token, categoryList, getTodoList}: any) => {
     }
 
   return (
+
     <div>
       <li key={todo.id} style={{ marginBottom: 5 }}>
               {todo.title}

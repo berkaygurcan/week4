@@ -5,11 +5,26 @@ import AddCategoryModal from "./AddCategoryModal";
 import TodoList, { Todo } from "./TodoList";
 import { Category } from "./AddCategoryModal";
 import { Statu } from "./EditStatuModal";
+import axios from "axios";
 
 export default function MainComponent(props: any) {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [statuList, setStatuList] = useState<Statu[]>([]);
   const [todoList, setTodoList] = useState<Todo[]>([]);
+
+  //apiler için config
+  const config = {
+    headers: { Authorization: `Bearer ${props.token}` },
+  };
+
+  const getTodoList = async () => {
+    
+    const res = await axios.get("http://localhost:80/todo", config);
+    console.log("todo response = ",res.data)
+    setTodoList(res.data);
+    
+  };
+
 
   const [open, setOpen] = useState<boolean>(false);
   const handleToggle = () => {
@@ -51,6 +66,7 @@ export default function MainComponent(props: any) {
         setCategoryList={setCategoryList}
         statuList={statuList}
         setStatuList={setStatuList}
+        getTodoList = {getTodoList}
       />
     </div>
   );

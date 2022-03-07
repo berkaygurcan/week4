@@ -18,7 +18,7 @@ export default function FilterTodo({
   setStatuList,
 }: any) {
   const initialFilterState = {
-    title: "",
+   
     categoryId: null,
     statusId: null,
   };
@@ -49,26 +49,23 @@ export default function FilterTodo({
       `http://localhost:80/status?categoryId=${categoryId}`,
       config
     );
-    console.log("response data ", res.data);
+    
     setStatuList(res.data);
   };
 
   const handleFilter = () => {
 
-    if(!filter.categoryId && !filter.statusId && !filter.title) {
+    if(!filter.categoryId && !filter.statusId ) {
       console.log("lütfen filtreleme seçeneklerinden en az birini seçiniz")
       return false
     }
     
-    console.log(filter)
     const res = axios
       .get("http://localhost:80/todo", {
         params: { ...filter },
         headers: config.headers,
       })
       .then(response => {
-        console.log(response)
-        console.log(response.data)
         setTodoList(response.data)
       });
   
@@ -76,28 +73,16 @@ export default function FilterTodo({
 
   const handleResetFilter = () => {
     //filter ve filteredTodoList kısmını clear etmemiz lazım
-    getTodoList().then(() => {
-      setFilter(initialFilterState);
-    });
+    setFilter(initialFilterState);
+    axios.get("http://localhost:80/todo", config).then(res => setTodoList(res.data))
   };
 
-  const getTodoList = async () => {
-    const res = await axios.get("http://localhost:80/todo", config).catch(err => console.log(err.message))
-    
-  };
 
   return (
     <div>
       <h3>Filter Todo Section</h3>
       <Box sx={{ minWidth: 120, display: "flex" }}>
-        <TextField
-          id="filter-textfield-basic"
-          value={filter.title}
-          onChange={handleChange}
-          name="title"
-          label="Outlined"
-          variant="outlined"
-        />
+       
         <FormControl>
           <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
           {/* Category Select */}

@@ -37,7 +37,7 @@ export default function AddTodo({ token, categoryList ,statuList ,setStatuList, 
   
   const handleAddTodo = async() => {
 
-    if(addTodo.title! || addTodo.categoryId! || addTodo.statusId!) {
+    if(!addTodo.title || !addTodo.categoryId || !addTodo.statusId) {
       console.log("alanların hepsini giriniz")
       return false
     }

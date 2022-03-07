@@ -16,7 +16,7 @@ const style = {
   pb: 3,
 };
 
-const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
+const EditSingleStatu = ({ statuId, setStatuList, statusList, token, getTodoList }: any) => {
   const [textViewValue, setTextViewValue] = useState<any>();
   let updatedStatu: Statu;
 
@@ -30,7 +30,9 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
     setOpen(true);
   };
   const handleClose = () => {
+    getTodoList() 
     setOpen(false);
+   
   };
 
   const handleFieldChange = (event: any) => {
@@ -55,7 +57,6 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
     
     updatedStatu.title = textViewValue;
     
-
     await axios.put(
       //güncelleme
       `http://localhost:80/status/${statuId}`,
@@ -65,7 +66,7 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
       },
       config
     );
-
+    
     const finalResult = await axios.get(
       //listeyi tekrar çek
       `http://localhost:80/status?categoryId=${updatedStatu.categoryId}`,
@@ -73,6 +74,8 @@ const EditSingleStatu = ({ statuId, setStatuList, statusList, token }: any) => {
     );
     console.log("statu listesi alındı");
     setStatuList(finalResult.data);
+
+    
   };
 
   return (
